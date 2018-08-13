@@ -7,14 +7,17 @@ import java.util.List;
 
 import org.junit.Test;
 
-import codingdojo.parkingboy.exception.ParkingLotIsAllFull;
-
-public class NormalParkingStrateryTest {
+public class NormalParkingStrateryTest extends BaseParkingStrategyTest{
 	
 	private List<ParkingLot> parkingLots = new LinkedList<>();
 	
 	NormalParkingStrategy strategy = new NormalParkingStrategy();
 
+	@Override
+	protected BaseParkingStrategy getTestedBaseParkingStrategy() {
+		return new NormalParkingStrategy();
+	}
+	
 	private void initData() {
 		ParkingLot p1 = new ParkingLot("1", 2),
 				p2 = new ParkingLot("2", 2);
@@ -66,16 +69,5 @@ public class NormalParkingStrateryTest {
 		assertEquals(p1, parkingLot);
 	}
 	
-	@Test(expected = ParkingLotIsAllFull.class)
-	public void should_throw_parking_lot_is_full_exception_when_trying_to_park_but_no_space_any_more(){
-		initData();
-		ParkingLot p1 = parkingLots.get(0);
-		ParkingLot p2 = parkingLots.get(1);
-		p1.park(new Car("1"));
-		p1.park(new Car("2"));
-		p2.park(new Car("3"));
-		p2.park(new Car("4"));
-		
-		strategy.findSuitableParkingLot(parkingLots);
-	}
+	
 }

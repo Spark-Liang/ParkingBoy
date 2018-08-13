@@ -79,5 +79,9 @@ public class ParkingLot {
 		return parkingSpace - parkedCars.size();
 	}
 
+	public Double emptyRatio() {
+		return (double) emptySpaceNum()/parkingSpace;
+	}
+
 	
 }

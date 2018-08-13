@@ -1,6 +1,7 @@
 package codingdojo.parkingboy;
 
 import codingdojo.parkingboy.exception.CarIsNotFound;
+import codingdojo.parkingboy.exception.InvalidateCardException;
 
 public class ParkingBoy {
 	
@@ -17,6 +18,9 @@ public class ParkingBoy {
 	}
 	
 	public Car pick(ParkingCard card1) {
+		if(card1 == null) {
+			throw new InvalidateCardException();
+		}
 		for (ParkingLot parkingLot : company.getParkingLots()) {
 			Car car = parkingLot.pick(card1);
 			if (car != null) {
@@ -36,6 +40,10 @@ public class ParkingBoy {
 
 	public static ParkingBoy buildNormalParkingBoy() {
 		return new ParkingBoy(new NormalParkingStrategy());
+	}
+
+	public static ParkingBoy buildSuperParkingBoy() {
+		return new ParkingBoy(new SuperParkingStrategy());
 	}
 	
 }

@@ -8,17 +8,27 @@ import static org.mockito.Mockito.when;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.cglib.proxy.Enhancer;
 
 import codingdojo.parkingboy.exception.DuplicateCarException;
 import codingdojo.parkingboy.exception.InvalidateCarException;
+import codingdojo.parkingboy.exception.ParkingLotIsAllFull;
 
-public class BaseParkingStrategyTest {
+public abstract class BaseParkingStrategyTest {
 
 private List<ParkingLot> parkingLots = new LinkedList<>();
 	
-	BaseParkingStrategy strategy = spy(BaseParkingStrategy.class);
+	BaseParkingStrategy strategy ;
 
+	@Before
+	public void setUpBaseParkingStrategyTest() {
+		strategy = getTestedBaseParkingStrategy();
+	}
+	
+	protected abstract BaseParkingStrategy getTestedBaseParkingStrategy();
+	
 	private void initData() {
 		ParkingLot p1 = new ParkingLot("1", 2),
 				p2 = new ParkingLot("2", 2);
@@ -44,11 +54,26 @@ private List<ParkingLot> parkingLots = new LinkedList<>();
 	@Test
 	public void should_success_park_car_when_find_the_suitable_parkinglot() {
 		initData();
-		ParkingLot suitableParkingLot = parkingLots.get(0);
-		when(strategy.findSuitableParkingLot(parkingLots)).thenReturn(suitableParkingLot);
 		
 		strategy.park(parkingLots, new Car("1"));
 		
-		assertThat(suitableParkingLot.getParkingCars(), hasItem(new Car("1")));
+		List<Car> cars = new LinkedList<>();
+		for(ParkingLot parkingLot : parkingLots) {
+			cars.addAll(parkingLot.getParkingCars());
+		}
+		assertThat(cars, hasItem(new Car("1")));
+	}
+	
+	@Test(expected = ParkingLotIsAllFull.class)
+	public void should_throw_parking_lot_is_full_exception_when_trying_to_park_but_no_space_any_more(){
+		initData();
+		ParkingLot p1 = parkingLots.get(0);
+		ParkingLot p2 = parkingLots.get(1);
+		p1.park(new Car("1"));
+		p1.park(new Car("2"));
+		p2.park(new Car("3"));
+		p2.park(new Car("4"));
+		
+		strategy.park(parkingLots, new Car("5"));
 	}
 }
