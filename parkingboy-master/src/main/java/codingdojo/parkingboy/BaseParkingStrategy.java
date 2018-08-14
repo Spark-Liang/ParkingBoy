@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import codingdojo.parkingboy.exception.DuplicateCarException;
-import codingdojo.parkingboy.exception.InvalidateCarException;
+import codingdojo.parkingboy.exception.InvalidCarException;
 
 public abstract class BaseParkingStrategy implements ParkingStrategy {
 
@@ -20,7 +20,7 @@ public abstract class BaseParkingStrategy implements ParkingStrategy {
 	
 	void validateCar(Collection<ParkingLot> parkingLots, Car car) {
 		if(car == null) {
-			throw new InvalidateCarException();
+			throw new InvalidCarException();
 		}
 		for(Car carInParkingLot : getAllCars(parkingLots)) {
 			if (carInParkingLot.equals(car)) {

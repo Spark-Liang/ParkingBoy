@@ -16,7 +16,7 @@ public class SmartParkingBoyTest extends ParkingBoyTest{
 	
 	@Override
 	protected ParkingBoy getTestedParkingBoy() {
-		return ParkingBoy.buildSmartParkingBoy();
+		return ParkingBoy.buildParkingBoy(new SmartParkingStrategy());
 	}
 	
 	@Before

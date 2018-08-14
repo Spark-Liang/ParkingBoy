@@ -1,6 +1,6 @@
 package codingdojo.parkingboy.exception;
 
-public class DuplicateCarException extends RuntimeException {
+public class InvalidCarException extends RuntimeException {
 
 	/**
 	 * 

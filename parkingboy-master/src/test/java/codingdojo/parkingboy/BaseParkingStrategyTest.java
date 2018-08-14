@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.mockito.cglib.proxy.Enhancer;
 
 import codingdojo.parkingboy.exception.DuplicateCarException;
-import codingdojo.parkingboy.exception.InvalidateCarException;
+import codingdojo.parkingboy.exception.InvalidCarException;
 import codingdojo.parkingboy.exception.ParkingLotIsAllFull;
 
 public abstract class BaseParkingStrategyTest {
@@ -44,7 +44,7 @@ private List<ParkingLot> parkingLots = new LinkedList<>();
 		strategy.validateCar(parkingLots,new Car("1"));
 	}
 	
-	@Test(expected = InvalidateCarException.class)
+	@Test(expected = InvalidCarException.class)
 	public void should_throw_invalidate_car_exception_when_park_the_null_car_into_parkingLot() {
 		initData();
 		

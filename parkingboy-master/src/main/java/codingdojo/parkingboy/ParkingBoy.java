@@ -1,27 +1,33 @@
 package codingdojo.parkingboy;
 
-import codingdojo.parkingboy.exception.CarIsNotFound;
-import codingdojo.parkingboy.exception.InvalidateCardException;
+import java.util.LinkedList;
+import java.util.List;
 
-public class ParkingBoy {
+import codingdojo.parkingboy.exception.CarIsNotFound;
+import codingdojo.parkingboy.exception.InvalidCardException;
+
+public class ParkingBoy implements Employee{
 	
 	private Company company;
 	
 	private ParkingStrategy strategy;
+
+	private List<ParkingLot> parkingLots = new LinkedList<>();
 	
 	private ParkingBoy(ParkingStrategy strategy) {
 		this.strategy = strategy;
 	}
 	
+	@Override
 	public void setCompany(Company company) {
 		this.company = company;
 	}
 	
 	public Car pick(ParkingCard card1) {
 		if(card1 == null) {
-			throw new InvalidateCardException();
+			throw new InvalidCardException();
 		}
-		for (ParkingLot parkingLot : company.getParkingLots()) {
+		for (ParkingLot parkingLot : parkingLots) {
 			Car car = parkingLot.pick(card1);
 			if (car != null) {
 				return car;
@@ -31,19 +37,18 @@ public class ParkingBoy {
 	}
 	
 	public ParkingCard park(Car car) {
-		return strategy.park(company.getParkingLots(), car);
+		return strategy.park(parkingLots, car);
 	}
 
-	public static ParkingBoy buildSmartParkingBoy() {
-		return new ParkingBoy(new SmartParkingStrategy());
+	public static ParkingBoy buildParkingBoy(ParkingStrategy strategy) {
+		return new ParkingBoy(strategy);
 	}
 
-	public static ParkingBoy buildNormalParkingBoy() {
-		return new ParkingBoy(new NormalParkingStrategy());
+	public boolean isEmployed() {
+		return company != null;
 	}
 
-	public static ParkingBoy buildSuperParkingBoy() {
-		return new ParkingBoy(new SuperParkingStrategy());
+	void addParkingLot(ParkingLot parkingLot) {
+		parkingLots.add(parkingLot);
 	}
-	
 }

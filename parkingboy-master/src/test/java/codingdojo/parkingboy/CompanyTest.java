@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import codingdojo.parkingboy.exception.ParkingLotIsNull;
 import codingdojo.parkingboy.exception.ParkingLotNameDuplication;
 import codingdojo.parkingboy.exception.ParkingLotNameIsNull;
 import codingdojo.parkingboy.exception.ParkingLotNameIsTooLong;
@@ -24,8 +25,10 @@ public class CompanyTest {
 	public void should_success_when_everything_is_right() {
 		Company company = new Company();
 		assertEquals(0, company.getParkingLotSize().intValue());
-		ParkingLot parkingLot = buildParkingLot("", 2);;
+		ParkingLot parkingLot = buildParkingLot("", 2);
+		
 		company.add(parkingLot);
+		
 		assertEquals(1, company.getParkingLotSize().intValue());
 		assertEquals(2, parkingLot.getParkingSpace().intValue());
 	}
@@ -62,6 +65,7 @@ public class CompanyTest {
 		ParkingLot parkingLot1 = buildParkingLot(new String("a"), 2);
 		Company company = new Company();
 		company.add(parkingLot);
+		
 		company.add(parkingLot1);
 	}
 
@@ -81,4 +85,10 @@ public class CompanyTest {
 		ParkingLot parkingLot = buildParkingLot("looooooooooooooong name", 1);
 	}
 	
+	@Test(expected = ParkingLotIsNull.class)
+	public void should_throw_parkinglot_is_null_exception_when_add_a_null_parkinglot(){
+		Company company = new Company();
+		
+		company.add(null);
+	}
 }

@@ -18,7 +18,7 @@ public class NormalParkingBoyTest extends ParkingBoyTest{
 	
 	@Override
 	protected ParkingBoy getTestedParkingBoy() {
-		return ParkingBoy.buildNormalParkingBoy();
+		return ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
 	}
 	
 	private void initDependencies() {

@@ -1,0 +1,12 @@
+ManagerTest:
+
+//should assign the parking lot to parkingboy
+
+//should throw un employed exception when Manager was not employed by company
+
+//should throw Invalidate parkingboy exception when assign a parkingLot to a null parkingboy
+
+//should throw un employed exception when assign a parkingLot to an un employed parkingboy
+
+//should throw multiassign exception when assign a parkingLot which has been assign to other parkingboy
+
