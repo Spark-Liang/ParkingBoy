@@ -1,0 +1,10 @@
+package codingdojo.parkingboy.exception;
+
+public class UnEmployedManager extends RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+}

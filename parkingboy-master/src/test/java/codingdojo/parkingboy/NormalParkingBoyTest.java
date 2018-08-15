@@ -10,25 +10,9 @@ import org.junit.Test;
 
 public class NormalParkingBoyTest extends ParkingBoyTest{
 
-	private Company company;
-	
-	private ParkingLot p1,p2;
-	
-	private ParkingBoy parkingBoy;
-	
 	@Override
 	protected ParkingBoy getTestedParkingBoy() {
 		return ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
-	}
-	
-	private void initDependencies() {
-		company = new Company();
-		p1 = new ParkingLot("1", 2);
-		p2 = new ParkingLot("2", 2);
-		company.add(p1);
-		company.add(p2);
-		parkingBoy = getTestedParkingBoy();
-		company.employ(parkingBoy);
 	}
 	
 	@Test
