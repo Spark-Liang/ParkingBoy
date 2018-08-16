@@ -1,7 +1,6 @@
 package codingdojo.parkingboy;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import codingdojo.parkingboy.exception.ParkingLotIsNull;
@@ -9,7 +8,8 @@ import codingdojo.parkingboy.exception.ParkingLotNameDuplication;
 
 public class Company {
 
-	private List<ParkingLot> parkingLots = new LinkedList<ParkingLot>();
+	private List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
+	private List<ParkingBoy> employedParkingBoys = new ArrayList<>();
 	
 	public Integer getParkingLotSize() {
 		return parkingLots.size();
@@ -33,10 +33,18 @@ public class Company {
 
 	public void employ(Employee employee) {
 		employee.setCompany(this);
+		if(employee instanceof ParkingBoy) {
+			ParkingBoy parkingBoy = (ParkingBoy)employee;
+			employedParkingBoys.add(parkingBoy);
+		}
 	}
 	
 	public List<ParkingLot> getParkingLots() {
 		return new ArrayList<ParkingLot>(parkingLots);
+	}
+
+	List<ParkingBoy> getEmployedParkingBoy() {
+		return new ArrayList<>(employedParkingBoys);
 	}
 
 }

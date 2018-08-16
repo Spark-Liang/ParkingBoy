@@ -13,7 +13,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	CarTest.class,
 	NormalParkingStrateryTest.class,
 	SmartParkingStrategyTest.class,
-	SuperParkingStrategyTest.class
+	SuperParkingStrategyTest.class,
+	ManagerTest.class
 })
 public class ParkingTestSuite {
 

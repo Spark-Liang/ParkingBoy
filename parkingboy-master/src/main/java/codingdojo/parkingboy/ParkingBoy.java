@@ -23,12 +23,12 @@ public class ParkingBoy implements Employee{
 		this.company = company;
 	}
 	
-	public Car pick(ParkingCard card1) {
-		if(card1 == null) {
+	public Car pick(ParkingCard card) {
+		if(card == null) {
 			throw new InvalidCardException();
 		}
 		for (ParkingLot parkingLot : parkingLots) {
-			Car car = parkingLot.pick(card1);
+			Car car = parkingLot.pick(card);
 			if (car != null) {
 				return car;
 			}
@@ -44,11 +44,11 @@ public class ParkingBoy implements Employee{
 		return new ParkingBoy(strategy);
 	}
 
-	public boolean isEmployed() {
-		return company != null;
-	}
-
 	void addParkingLot(ParkingLot parkingLot) {
 		parkingLots.add(parkingLot);
+	}
+
+	void removeParkingLot(ParkingLot parkingLot) {
+		parkingLots.remove(parkingLot);
 	}
 }

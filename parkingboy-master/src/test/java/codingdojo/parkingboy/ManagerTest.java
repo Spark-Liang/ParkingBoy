@@ -1,6 +1,7 @@
 package codingdojo.parkingboy;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import codingdojo.parkingboy.common.Sets;
 import codingdojo.parkingboy.exception.ParkingBoyIsNull;
 import codingdojo.parkingboy.exception.ParkingLotIsAllFull;
 import codingdojo.parkingboy.exception.UnEmployedManager;
@@ -70,7 +72,19 @@ public class ManagerTest {
 		manager.assign(parkingLot,ParkingBoy.buildParkingBoy(new NormalParkingStrategy()));
 	}
 	
-	//should_throw_un_employed_exception_when_assign_a_parkingLot_to_an_parkingboy_not_in_this_company
+	@Test(expected = UnEmployedParkingBoy.class)
+	public void should_throw_un_employed_exception_when_assign_a_parkingLot_to_an_parkingboy_not_in_this_company() {
+		Company company = new Company();
+		Manager manager = new Manager();
+		company.employ(manager);
+		ParkingLot parkingLot = new ParkingLot("A", 2);
+		company.add(parkingLot);
+		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
+		Company otherCompany = new Company();
+		otherCompany.employ(parkingBoy);
+		
+		manager.assign(parkingLot,parkingBoy);
+	}
 	
 	@Test
 	public void should_throw_Invalid_parkingLot_exception_when_assign_a_null_parkingLot_to_a_parkingboy(){
@@ -113,12 +127,31 @@ public class ManagerTest {
 		
 		manager.assign(parkingLot,parkingBoy);
 		
-		validateParkingBoyCanParkCarToParkingLot(parkingBoy,parkingLot);
+		validateParkingBoyCanParkCarToParkingLot(parkingBoy,parkingLot,true);
 	}
 
-	//when assign a lot to new parkingboy should the old parkingboy can not park to this lot but the new parkingboy can
+	@Test
+	public void should_the_old_parkingboy_can_not_park_to_this_lot_but_the_new_parkingboy_can_after_assign_a_lot_to_new_parkingboy(){
+		Company company = new Company();
+		Manager manager = new Manager();
+		company.employ(manager);
+		ParkingBoy oldParkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
+		company.employ(oldParkingBoy);
+		ParkingLot parkingLot = new ParkingLot("A", 2);
+		company.add(parkingLot);
+		manager.assign(parkingLot,oldParkingBoy);
+		ParkingBoy newParkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
+		company.employ(newParkingBoy);
+		
+		manager.assign(parkingLot, newParkingBoy);
+		
+		validateParkingBoyCanParkCarToParkingLot(newParkingBoy,parkingLot,true);
+		validateParkingBoyCanParkCarToParkingLot(oldParkingBoy,parkingLot,false);
+	}
 	
-	private void validateParkingBoyCanParkCarToParkingLot(ParkingBoy parkingBoy, ParkingLot parkingLot) {
+	
+	
+	private void validateParkingBoyCanParkCarToParkingLot(ParkingBoy parkingBoy, ParkingLot parkingLot,boolean canParkCar) {
 		int carNum = 0;
 		Map<ParkingCard, Car> carsMap = new HashMap<>();
 		try {
@@ -130,8 +163,12 @@ public class ManagerTest {
 			}
 		} catch (ParkingLotIsAllFull e) {
 			Set<Car> parkedCarsInParkingLotCars = new HashSet<>(parkingLot.getParkingCars());
-			Set<Car> intersectionBetweenCarsAndParkedCarsInParkingLot = intersection(new HashSet<>(carsMap.values()), parkedCarsInParkingLotCars);
-			assertFalse(intersectionBetweenCarsAndParkedCarsInParkingLot.isEmpty());
+			Set<Car> intersectionBetweenCarsAndParkedCarsInParkingLot = Sets.intersection(new HashSet<>(carsMap.values()), parkedCarsInParkingLotCars);
+			if(canParkCar) {
+				assertFalse(intersectionBetweenCarsAndParkedCarsInParkingLot.isEmpty());
+			}else {
+				assertTrue(intersectionBetweenCarsAndParkedCarsInParkingLot.isEmpty());
+			}
 		}finally {
 			for(ParkingCard card : carsMap.keySet()) {
 				parkingBoy.pick(card);
@@ -139,9 +176,5 @@ public class ManagerTest {
 		}
 	}
 	
-	<T> Set<T> intersection(Set<T> s1, Set<T> s2) {
-		Set<T> result = new HashSet<T>(s1);
-		result.retainAll(s2);
-		return result;
-	}
+	
 }

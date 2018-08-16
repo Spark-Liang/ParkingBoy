@@ -17,6 +17,8 @@ public class ParkingLot {
 	
 	private String parkingName;
 	
+	private ParkingBoy currentParkingBoy;
+	
 	private Map<ParkingCard,Car> parkedCars = new HashMap<ParkingCard, Car>();
 	
 	public ParkingLot(String name, Integer parkingSpace) {	
@@ -66,7 +68,7 @@ public class ParkingLot {
 	}
 
 	public ParkingCard park(Car car) {
-		ParkingCard newCard = new ParkingCard();
+		ParkingCard newCard = new ParkingCard(this);
 		parkedCars.put(newCard, car);
 		return newCard;
 	}
@@ -81,6 +83,14 @@ public class ParkingLot {
 
 	public Double emptyRatio() {
 		return (double) emptySpaceNum()/parkingSpace;
+	}
+
+	ParkingBoy getCurrentParkingBoy() {
+		return currentParkingBoy;
+	}
+
+	void setCurrentParkingBoy(ParkingBoy parkingBoy) {
+		this.currentParkingBoy = parkingBoy;
 	}
 
 	
