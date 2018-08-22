@@ -23,27 +23,36 @@ public class ManagerTest {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 	
+	private Company prepareCompany(Manager manager,ParkingLot[] parkingLots,ParkingBoy[] parkingBoys) {
+		Company company = new Company();
+		if(manager != null) {
+			company.employ(manager);
+		}
+		for(ParkingLot parkingLot : parkingLots) {
+			company.add(parkingLot);
+		}
+		for(ParkingBoy parkingBoy : parkingBoys) {
+			company.employ(parkingBoy);
+		}
+		return company;
+	}
+	
 	@Test
 	public void should_assign_the_parking_lot_to_parkingboy() {
-		Company company = new Company();
 		Manager manager = new Manager();
-		company.employ(manager);
 		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
-		company.employ(parkingBoy);
 		ParkingLot parkingLot = new ParkingLot("A", 2);
-		company.add(parkingLot);
+		prepareCompany(manager, new ParkingLot[] {parkingLot}, new ParkingBoy[] {parkingBoy});
 		
 		manager.assign(parkingLot,parkingBoy);
 	}
 	
 	@Test(expected = UnEmployedManager.class)
 	public void should_throw_un_employed_exception_when_Manager_was_not_employed_by_company(){
-		Company company = new Company();
 		Manager manager = new Manager();
 		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
-		company.employ(parkingBoy);
 		ParkingLot parkingLot = new ParkingLot("A", 2);
-		company.add(parkingLot);
+		prepareCompany(null, new ParkingLot[] {parkingLot}, new ParkingBoy[] {parkingBoy});
 		
 		manager.assign(parkingLot,parkingBoy);
 	}
@@ -53,8 +62,6 @@ public class ManagerTest {
 		Company company = new Company();
 		Manager manager = new Manager();
 		company.employ(manager);
-		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
-		company.employ(parkingBoy);
 		ParkingLot parkingLot = new ParkingLot("A", 2);
 		company.add(parkingLot);
 		
@@ -74,11 +81,9 @@ public class ManagerTest {
 	
 	@Test(expected = UnEmployedParkingBoy.class)
 	public void should_throw_un_employed_exception_when_assign_a_parkingLot_to_an_parkingboy_not_in_this_company() {
-		Company company = new Company();
 		Manager manager = new Manager();
-		company.employ(manager);
 		ParkingLot parkingLot = new ParkingLot("A", 2);
-		company.add(parkingLot);
+		prepareCompany(manager, new ParkingLot[] {parkingLot}, new ParkingBoy[0]);
 		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
 		Company otherCompany = new Company();
 		otherCompany.employ(parkingBoy);
@@ -95,8 +100,6 @@ public class ManagerTest {
 		company.employ(manager);
 		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
 		company.employ(parkingBoy);
-		ParkingLot parkingLot = new ParkingLot("A", 2);
-		company.add(parkingLot);
 		
 		manager.assign(null,parkingBoy);
 	}
@@ -117,13 +120,10 @@ public class ManagerTest {
 	
 	@Test
 	public void should_a_parkingboy_can_parking_car_to_the_lot_when_assign_a_parkinglot_to_him(){
-		Company company = new Company();
 		Manager manager = new Manager();
-		company.employ(manager);
 		ParkingBoy parkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
-		company.employ(parkingBoy);
 		ParkingLot parkingLot = new ParkingLot("A", 2);
-		company.add(parkingLot);
+		prepareCompany(manager, new ParkingLot[] {parkingLot}, new ParkingBoy[] {parkingBoy});
 		
 		manager.assign(parkingLot,parkingBoy);
 		
@@ -132,13 +132,10 @@ public class ManagerTest {
 
 	@Test
 	public void should_the_old_parkingboy_can_not_park_to_this_lot_but_the_new_parkingboy_can_after_assign_a_lot_to_new_parkingboy(){
-		Company company = new Company();
 		Manager manager = new Manager();
-		company.employ(manager);
 		ParkingBoy oldParkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
-		company.employ(oldParkingBoy);
 		ParkingLot parkingLot = new ParkingLot("A", 2);
-		company.add(parkingLot);
+		Company company = prepareCompany(manager, new ParkingLot[] {parkingLot}, new ParkingBoy[] {oldParkingBoy});
 		manager.assign(parkingLot,oldParkingBoy);
 		ParkingBoy newParkingBoy = ParkingBoy.buildParkingBoy(new NormalParkingStrategy());
 		company.employ(newParkingBoy);

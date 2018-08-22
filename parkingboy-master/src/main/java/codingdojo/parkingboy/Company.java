@@ -62,6 +62,7 @@ public class Company {
 
 	void registerParkingBoyToParkingLot(ParkingBoy parkingBoy, ParkingLot parkingLot) {
 		parkingLotMap.put(parkingLot, parkingBoy);
+		parkingLot.setCurrentParkingBoy(parkingBoy);
 	}
 
 }
