@@ -1,6 +1,5 @@
 package codingdojo.parkingboy;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import codingdojo.parkingboy.exception.CarIsNotFound;
@@ -12,8 +11,6 @@ public class ParkingBoy implements Employee{
 	
 	private ParkingStrategy strategy;
 
-	private List<ParkingLot> parkingLots = new LinkedList<>();
-	
 	private ParkingBoy(ParkingStrategy strategy) {
 		this.strategy = strategy;
 	}
@@ -27,7 +24,7 @@ public class ParkingBoy implements Employee{
 		if(card == null) {
 			throw new InvalidCardException();
 		}
-		for (ParkingLot parkingLot : parkingLots) {
+		for (ParkingLot parkingLot : getAllParkingLots()) {
 			Car car = parkingLot.pick(card);
 			if (car != null) {
 				return car;
@@ -37,18 +34,15 @@ public class ParkingBoy implements Employee{
 	}
 	
 	public ParkingCard park(Car car) {
-		return strategy.park(parkingLots, car);
+		return strategy.park(getAllParkingLots(), car);
 	}
 
 	public static ParkingBoy buildParkingBoy(ParkingStrategy strategy) {
 		return new ParkingBoy(strategy);
 	}
 
-	void addParkingLot(ParkingLot parkingLot) {
-		parkingLots.add(parkingLot);
+	public List<ParkingLot> getAllParkingLots() {
+		return company.getAllParkingLotOfParkingBoy(this);
 	}
 
-	void removeParkingLot(ParkingLot parkingLot) {
-		parkingLots.remove(parkingLot);
-	}
 }

@@ -10,6 +10,7 @@ import codingdojo.parkingboy.exception.ParkingLotNameIsTooLong;
 import codingdojo.parkingboy.exception.ParkingLotSizeInvalid;
 
 public class ParkingLot {
+	private static final int MAX_LENGTH_OF_NAME = 10;
 	private static final int MIN_PARKING_SPACE = 0;
 	private static final int MAX_PARKING_SPACE = 10000;
 	
@@ -19,7 +20,7 @@ public class ParkingLot {
 	
 	private ParkingBoy currentParkingBoy;
 	
-	private Map<ParkingCard,Car> parkedCars = new HashMap<ParkingCard, Car>();
+	private Map<ParkingCard,Car> parkedCars = new HashMap<>();
 	
 	public ParkingLot(String name, Integer parkingSpace) {	
 		checkParameter(name, parkingSpace);
@@ -38,7 +39,7 @@ public class ParkingLot {
 		if(null==name) {
 			throw new ParkingLotNameIsNull();
 		}
-		if(name.length() > 10) {
+		if(name.length() > MAX_LENGTH_OF_NAME) {
 			throw new ParkingLotNameIsTooLong();
 		}
 	}
@@ -52,7 +53,7 @@ public class ParkingLot {
 	}
 
 	public List<Car> getParkingCars() {
-		return new LinkedList<Car>(parkedCars.values());
+		return new LinkedList<>(parkedCars.values());
 	}
 
 	public String getParkingName() {
@@ -81,7 +82,7 @@ public class ParkingLot {
 		return parkingSpace - parkedCars.size();
 	}
 
-	public Double emptyRatio() {
+	Double emptyRatio() {
 		return (double) emptySpaceNum()/parkingSpace;
 	}
 
@@ -93,5 +94,4 @@ public class ParkingLot {
 		this.currentParkingBoy = parkingBoy;
 	}
 
-	
 }

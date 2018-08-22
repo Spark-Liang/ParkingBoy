@@ -14,16 +14,7 @@ public class Manager implements Employee{
 		}
 		validateParkingLot(parkingLot);
 		validateParkingBoy(parkingBoy);
-		removeCurrentParkingBoyFromParkingLotIfExists(parkingLot);
-		parkingBoy.addParkingLot(parkingLot);
-		parkingLot.setCurrentParkingBoy(parkingBoy);
-	}
-
-	private void removeCurrentParkingBoyFromParkingLotIfExists(ParkingLot parkingLot) {
-		if(parkingLot.getCurrentParkingBoy() != null) {
-			ParkingBoy oldParkingBoy = parkingLot.getCurrentParkingBoy();
-			oldParkingBoy.removeParkingLot(parkingLot);
-		}
+		company.registerParkingBoyToParkingLot(parkingBoy,parkingLot);
 	}
 
 	private void validateParkingLot(ParkingLot parkingLot) {

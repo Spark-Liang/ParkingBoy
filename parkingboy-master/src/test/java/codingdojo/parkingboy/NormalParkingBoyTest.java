@@ -28,6 +28,7 @@ public class NormalParkingBoyTest extends ParkingBoyTest{
 		initDependencies();
 		Car carInParkingLot1_1 = new Car("1"),
 			carInParkingLot1_2 = new Car("2");
+		ParkingLot p1 = parkingBoy.getAllParkingLots().get(0);
 		p1.park(carInParkingLot1_1);
 		
 		parkingBoy.park(carInParkingLot1_2);
@@ -52,6 +53,8 @@ public class NormalParkingBoyTest extends ParkingBoyTest{
 	@Test
 	public void should_park_to_the_first_parking_lot_when_the_first_has_space_even_the_second_has_car(){
 		initDependencies();
+		ParkingLot p1 = parkingBoy.getAllParkingLots().get(0),
+				p2 = parkingBoy.getAllParkingLots().get(1);
 		p1.park(new Car("1"));
 		p2.park(new Car("2"));
 		Car carInParkingLot1 = new Car("3");

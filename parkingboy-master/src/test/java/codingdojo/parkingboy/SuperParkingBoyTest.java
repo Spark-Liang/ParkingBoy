@@ -43,8 +43,8 @@ public class SuperParkingBoyTest extends ParkingBoyTest{
 		company.add(p2);
 		parkingBoy = getTestedParkingBoy();
 		company.employ(parkingBoy);
-		parkingBoy.addParkingLot(p1);
-		parkingBoy.addParkingLot(p2);
+		company.registerParkingBoyToParkingLot(parkingBoy, p1);
+		company.registerParkingBoyToParkingLot(parkingBoy, p2);
 		p1.park(new Car("1"));
 		Car carInParkingLot1 = new Car("2");
 		
@@ -62,8 +62,8 @@ public class SuperParkingBoyTest extends ParkingBoyTest{
 		company.add(p2);
 		parkingBoy = getTestedParkingBoy();
 		company.employ(parkingBoy);
-		parkingBoy.addParkingLot(p1);
-		parkingBoy.addParkingLot(p2);
+		company.registerParkingBoyToParkingLot(parkingBoy, p1);
+		company.registerParkingBoyToParkingLot(parkingBoy, p2);
 		p1.park(new Car("1"));
 		Car carInParkingLot1 = new Car("2");
 		

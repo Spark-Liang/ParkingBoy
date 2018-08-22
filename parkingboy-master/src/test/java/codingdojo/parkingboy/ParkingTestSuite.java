@@ -8,6 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	NormalParkingBoyTest.class,
 	SmartParkingBoyTest.class,
+	SuperParkingBoyTest.class,
 	ParkingLotTest.class,
 	CompanyTest.class,
 	CarTest.class,
