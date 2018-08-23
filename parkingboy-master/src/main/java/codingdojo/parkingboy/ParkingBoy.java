@@ -1,11 +1,9 @@
 package codingdojo.parkingboy;
 
+import java.util.Collection;
 import java.util.List;
 
-import codingdojo.parkingboy.exception.CarIsNotFound;
-import codingdojo.parkingboy.exception.InvalidCardException;
-
-public class ParkingBoy implements Employee{
+public class ParkingBoy extends AbstractParkingLotOperator implements Employee{
 	
 	private Company company;
 	
@@ -20,23 +18,6 @@ public class ParkingBoy implements Employee{
 		this.company = company;
 	}
 	
-	public Car pick(ParkingCard card) {
-		if(card == null) {
-			throw new InvalidCardException();
-		}
-		for (ParkingLot parkingLot : getAllParkingLots()) {
-			Car car = parkingLot.pick(card);
-			if (car != null) {
-				return car;
-			}
-		}
-		throw new CarIsNotFound();
-	}
-	
-	public ParkingCard park(Car car) {
-		return strategy.park(getAllParkingLots(), car);
-	}
-
 	public static ParkingBoy buildParkingBoy(ParkingStrategy strategy) {
 		return new ParkingBoy(strategy);
 	}
@@ -45,4 +26,15 @@ public class ParkingBoy implements Employee{
 		return company.getAllParkingLotOfParkingBoy(this);
 	}
 
+	@Override
+	protected ParkingStrategy getStrategy() {
+		return strategy;
+	}
+
+	@Override
+	protected Collection<ParkingLot> getParkingLots() {
+		return getAllParkingLots();
+	}
+
+	
 }

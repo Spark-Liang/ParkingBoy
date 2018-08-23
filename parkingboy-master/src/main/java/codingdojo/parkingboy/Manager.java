@@ -1,12 +1,16 @@
 package codingdojo.parkingboy;
 
+import java.util.Collection;
+
 import codingdojo.parkingboy.exception.ParkingBoyIsNull;
 import codingdojo.parkingboy.exception.UnEmployedManager;
 import codingdojo.parkingboy.exception.UnEmployedParkingBoy;
 
-public class Manager implements Employee{
+public class Manager extends AbstractParkingLotOperator implements Employee{
 
 	private Company company;
+	
+	private ParkingStrategy strategy = new NormalParkingStrategy();
 	
 	public void assign(ParkingLot parkingLot, ParkingBoy parkingBoy) {
 		if(company == null) {
@@ -38,6 +42,16 @@ public class Manager implements Employee{
 	@Override
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	@Override
+	protected ParkingStrategy getStrategy() {
+		return strategy;
+	}
+
+	@Override
+	protected Collection<ParkingLot> getParkingLots() {
+		return company.getParkingLots();
 	}
 
 }
